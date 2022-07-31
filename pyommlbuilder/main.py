@@ -1,3 +1,4 @@
+from queue import Empty
 from typing import List, Union, Any
 
 
@@ -27,7 +28,6 @@ class Element(object):
 
         if not self._elements:
             return f"<{cls.omml_tag}{xml_attributes} />"
-
         rendered_elements = [element._render_to_omml() for element in self._elements]
         return f"<{cls.omml_tag}{xml_attributes}>{''.join(rendered_elements)}</{cls.omml_tag}>"
 
@@ -94,6 +94,21 @@ class FractionProperty(Element):
     omml_tag = "m:fPr"
 
 
+class BarType(EmptyElement):
+    omml_tag = "m:type"
+
+    def __init__(self, **kwargs):
+        self._elements = None
+        self.attributes = kwargs
+        self.attributes["m:val"] = "skw"
+
+
+class FractionPropertyBarType(FractionProperty, EmptyElement):
+    def __init__(self, **kwargs):
+        self._elements = [BarType()]
+        self.attributes = kwargs
+
+
 class Numerator(Element):
     omml_tag = "m:num"
 
@@ -108,9 +123,9 @@ class Fraction(Element):
     def __init__(self, elements, **kwargs):
         super().__init__(elements, **kwargs)
         if not isinstance(self._elements[-2], Numerator):
-            self._elements[-2] = Numerator(self._elements[-2])
+            self._elements[-2] = Numerator([self._elements[-2]])
         if not isinstance(self._elements[-1], Denominator):
-            self._elements[-1] = Denominator(self._elements[-1])
+            self._elements[-1] = Denominator([self._elements[-1]])
         assert (len(self._elements) == 2) or (
             len(self._elements) == 3 and isinstance(self._elements[0], FractionProperty)
         )
