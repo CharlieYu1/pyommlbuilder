@@ -76,3 +76,41 @@ class RunPropertyNormalText(RunProperty, EmptyElement):
     def __init__(self, **kwargs):
         self._elements = [NormalText()]
         self.attributes = kwargs
+
+
+class LineBreak(EmptyElement):
+    omml_tag = "w:br"
+
+
+class Math(Element):
+    omml_tag = "m:omath"
+
+
+class MathPara(Element):
+    omml_tag = "m:oMathPara"
+
+
+class FractionProperty(Element):
+    omml_tag = "m:fPr"
+
+
+class Numerator(Element):
+    omml_tag = "m:num"
+
+
+class Denominator(Element):
+    omml_tag = "m:den"
+
+
+class Fraction(Element):
+    omml_tag = "m:f"
+
+    def __init__(self, elements, **kwargs):
+        super().__init__(elements, **kwargs)
+        if not isinstance(self._elements[-2], Numerator):
+            self._elements[-2] = Numerator(self._elements[-2])
+        if not isinstance(self._elements[-1], Denominator):
+            self._elements[-1] = Denominator(self._elements[-1])
+        assert (len(self._elements) == 2) or (
+            len(self._elements) == 3 and isinstance(self._elements[0], FractionProperty)
+        )
