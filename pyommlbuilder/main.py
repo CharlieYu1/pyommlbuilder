@@ -19,7 +19,10 @@ class Element(object):
     def _render_to_omml(self):
         cls = self.__class__
         xml_attributes = "".join(
-            [" " + key + "=" + '"' + value + '"' for key, value in self.attributes]
+            [
+                " " + key + "=" + '"' + self.attributes[key] + '"'
+                for key in self.attributes
+            ]
         )
 
         if not self._elements:
@@ -43,12 +46,21 @@ class Text(Element):
     def _render_to_omml(self):
         cls = self.__class__
         xml_attributes = "".join(
-            [" " + key + "=" + '"' + value + '"' for key, value in self.attributes]
+            [
+                " " + key + "=" + '"' + self.attributes[key] + '"'
+                for key in self.attributes
+            ]
         )
         return f"<{cls.omml_tag}{xml_attributes}>{self.text}</{cls.omml_tag}>"
 
 
-class NormalText(Element):
+class EmptyElement(Element):
+    def __init__(self, **kwargs):
+        self._elements = None
+        self.attributes = kwargs
+
+
+class NormalText(EmptyElement):
     omml_tag = "m:nor"
 
     def __init__(self, **kwargs):
@@ -56,9 +68,11 @@ class NormalText(Element):
         self.attributes = kwargs
 
 
-class RunPropertyNormalText(Run):
-    omml_tag = "rPr"
+class RunProperty(Element):
+    omml_tag = "m:rPr"
 
+
+class RunPropertyNormalText(RunProperty, EmptyElement):
     def __init__(self, **kwargs):
         self._elements = [NormalText()]
         self.attributes = kwargs
