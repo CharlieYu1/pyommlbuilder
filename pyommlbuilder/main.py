@@ -63,9 +63,9 @@ class EmptyElement(Element):
 class NormalText(EmptyElement):
     omml_tag = "m:nor"
 
-    def __init__(self, **kwargs):
-        self._elements = None
-        self.attributes = kwargs
+
+class Align(EmptyElement):
+    omml_tag = "m:aln"
 
 
 class RunProperty(Element):
@@ -75,6 +75,18 @@ class RunProperty(Element):
 class RunPropertyNormalText(RunProperty, EmptyElement):
     def __init__(self, **kwargs):
         self._elements = [NormalText()]
+        self.attributes = kwargs
+
+
+class RunPropertyAlign(RunProperty, EmptyElement):
+    def __init__(self, **kwargs):
+        self._elements = [Align()]
+        self.attributes = kwargs
+
+
+class AlignedEqual(Run, EmptyElement):
+    def __init__(self, **kwargs):
+        self._elements = [RunPropertyAlign(), Text("=")]
         self.attributes = kwargs
 
 
