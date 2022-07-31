@@ -1,5 +1,6 @@
 from ast import Expression
 from pyommlbuilder.main import (
+    ElementList,
     Run,
     Text,
     NormalText,
@@ -18,6 +19,14 @@ def test_simple_expression():
 def test_element_property():
     expression = Text("abc ", **{"xml:space": "preserve"})
     assert expression._render_to_omml() == '<m:t xml:space="preserve">abc </m:t>'
+
+
+def test_element_list():
+    expression = ElementList([Run([Text("x+3")]), Run([Text("12")])])
+    assert (
+        expression._render_to_omml()
+        == "<m:r><m:t>x+3</m:t></m:r><m:r><m:t>12</m:t></m:r>"
+    )
 
 
 def test_run_property_normal_text():

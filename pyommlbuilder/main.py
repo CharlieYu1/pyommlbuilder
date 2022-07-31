@@ -29,7 +29,13 @@ class Element(object):
         if not self._elements:
             return f"<{cls.omml_tag}{xml_attributes} />"
         rendered_elements = [element._render_to_omml() for element in self._elements]
+        if not cls.omml_tag:
+            return f"{''.join(rendered_elements)}"
         return f"<{cls.omml_tag}{xml_attributes}>{''.join(rendered_elements)}</{cls.omml_tag}>"
+
+
+class ElementList(Element):
+    omml_tag = None  # a list of elements that does not belong to a parent element
 
 
 class Run(Element):
