@@ -46,3 +46,19 @@ class Text(Element):
             [" " + key + "=" + '"' + value + '"' for key, value in self.attributes]
         )
         return f"<{cls.omml_tag}{xml_attributes}>{self.text}</{cls.omml_tag}>"
+
+
+class NormalText(Element):
+    omml_tag = "m:nor"
+
+    def __init__(self, **kwargs):
+        self._elements = None
+        self.attributes = kwargs
+
+
+class RunPropertyNormalText(Run):
+    omml_tag = "rPr"
+
+    def __init__(self, **kwargs):
+        self._elements = [NormalText()]
+        self.attributes = kwargs
