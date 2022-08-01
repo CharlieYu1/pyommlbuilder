@@ -5,9 +5,12 @@ from pyommlbuilder.main import (
     Text,
     NormalText,
     RunPropertyNormalText,
+    WrappedTextElement,
     AlignedEqual,
     Fraction,
     FractionPropertyBarType,
+    Radical,
+    SquareRoot,
 )
 
 
@@ -47,4 +50,20 @@ def test_fraction():
     assert (
         expression._render_to_omml()
         == '<m:f><m:fPr><m:type m:val="skw" /></m:fPr><m:num><m:r><m:t>1</m:t></m:r></m:num><m:den><m:r><m:t>3</m:t></m:r></m:den></m:f>'
+    )
+
+
+def test_square_root():
+    expression = SquareRoot(WrappedTextElement("x+5"))
+    assert (
+        expression._render_to_omml()
+        == '<m:rad><m:radPr><m:degHide m:val="1" /></m:radPr><m:deg /><m:e><m:r><m:t>x+5</m:t></m:r></m:e></m:rad>'
+    )
+
+
+def test_radical():
+    expression = Radical([[WrappedTextElement("3")], [WrappedTextElement("2x-4")]])
+    assert (
+        expression._render_to_omml()
+        == "<m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad>"
     )

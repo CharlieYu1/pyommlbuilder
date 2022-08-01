@@ -107,25 +107,6 @@ class MathPara(Element):
     omml_tag = "m:oMathPara"
 
 
-class FractionProperty(Element):
-    omml_tag = "m:fPr"
-
-
-class BarType(EmptyElement):
-    omml_tag = "m:type"
-
-    def __init__(self, **kwargs):
-        self._elements = None
-        self.attributes = kwargs
-        self.attributes["m:val"] = "skw"
-
-
-class FractionPropertyBarType(FractionProperty, EmptyElement):
-    def __init__(self, **kwargs):
-        self._elements = [BarType()]
-        self.attributes = kwargs
-
-
 class WrappedTextElement(Element):
     omml_tag = None
 
@@ -144,6 +125,25 @@ class WrappedTextElement(Element):
         if not isinstance(elements, list):
             elements = [wrap_text_in_r_t(elements)]
         super().__init__(elements, **kwargs)
+
+
+class FractionProperty(Element):
+    omml_tag = "m:fPr"
+
+
+class BarType(EmptyElement):
+    omml_tag = "m:type"
+
+    def __init__(self, **kwargs):
+        self._elements = None
+        self.attributes = kwargs
+        self.attributes["m:val"] = "skw"
+
+
+class FractionPropertyBarType(FractionProperty, EmptyElement):
+    def __init__(self, **kwargs):
+        self._elements = [BarType()]
+        self.attributes = kwargs
 
 
 class Numerator(WrappedTextElement):
@@ -166,3 +166,49 @@ class Fraction(Element):
         assert (len(self._elements) == 2) or (
             len(self._elements) == 3 and isinstance(self._elements[0], FractionProperty)
         )
+
+
+class RadicalProperty(Element):
+    omml_tag = "m:radPr"
+
+
+class DegreeHide(EmptyElement):
+    omml_tag = "m:degHide"
+
+    def __init__(self, **kwargs):
+        self._elements = None
+        self.attributes = kwargs
+        self.attributes["m:val"] = "1"
+
+
+class RadicalPropertyDegreeHide(RadicalProperty, EmptyElement):
+    def __init__(self, **kwargs):
+        self._elements = [DegreeHide()]
+        self.attributes = kwargs
+
+
+class RadicalDegree(Element):
+    omml_tag = "m:deg"
+
+
+class Radicand(Element):
+    omml_tag = "m:e"
+
+
+class Radical(Element):
+    omml_tag = "m:rad"
+
+    def __init__(self, elements, **kwargs):
+        super().__init__(elements, **kwargs)
+        if not isinstance(self._elements[-2], RadicalDegree):
+            self._elements[-2] = RadicalDegree(self._elements[-2])
+        if not isinstance(self._elements[-1], Radicand):
+            self._elements[-1] = Radicand(self._elements[-1])
+        assert (len(self._elements) == 2) or (
+            len(self._elements) == 3 and isinstance(self._elements[0], RadicalProperty)
+        )
+
+
+class SquareRoot(Radical):
+    def __init__(self, radicand, **kwargs):
+        super().__init__([RadicalPropertyDegreeHide(), [], [radicand]], **kwargs)
