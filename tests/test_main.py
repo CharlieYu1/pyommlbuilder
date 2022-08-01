@@ -15,7 +15,7 @@ from pyommlbuilder.main import (
 
 
 def test_simple_expression():
-    expression = Run([Text("x+3")])
+    expression = Run(Text("x+3"))
     assert expression._render_to_omml() == "<m:r><m:t>x+3</m:t></m:r>"
 
 
@@ -46,7 +46,7 @@ def test_aligned_equal():
 
 
 def test_fraction():
-    expression = Fraction([FractionPropertyBarType(), Run([Text(1)]), Run([Text(3)])])
+    expression = Fraction([FractionPropertyBarType(), Run(Text(1)), Run(Text(3))])
     assert (
         expression._render_to_omml()
         == '<m:f><m:fPr><m:type m:val="skw" /></m:fPr><m:num><m:r><m:t>1</m:t></m:r></m:num><m:den><m:r><m:t>3</m:t></m:r></m:den></m:f>'
@@ -62,7 +62,7 @@ def test_square_root():
 
 
 def test_radical():
-    expression = Radical([[WrappedTextElement("3")], [WrappedTextElement("2x-4")]])
+    expression = Radical([WrappedTextElement("3"), WrappedTextElement("2x-4")])
     assert (
         expression._render_to_omml()
         == "<m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad>"

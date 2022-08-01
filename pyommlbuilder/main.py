@@ -1,11 +1,14 @@
-from typing import List, Union, Any
+from typing import List, Union, Sequence, Any
 
 
 class Element(object):
     omml_tag = "m:e"
 
     def __init__(self, elements, **kwargs):
-        self._elements = elements
+        if isinstance(elements, list):
+            self._elements = elements
+        else:
+            self._elements = [elements]
         self.attributes = kwargs
 
     def __eq__(self, other: "Element"):
@@ -113,9 +116,9 @@ class WrappedTextElement(Element):
     def __init__(self, elements, **kwargs):
         def wrap_text_in_r_t(maybe_text) -> Element:
             if isinstance(maybe_text, str):
-                return Run([Text(maybe_text)])
+                return Run(Text(maybe_text))
             if isinstance(maybe_text, Text):
-                return Run([maybe_text])
+                return Run(maybe_text)
             if isinstance(maybe_text, Run) and isinstance(
                 maybe_text._elements[0], Text
             ):
