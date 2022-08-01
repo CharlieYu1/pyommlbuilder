@@ -20,11 +20,11 @@ def test_make_aligned_equation():
     assert (
         right._render_to_omml()
         == """
-    <m:f>
-        <m:num><m:r><m:t>2</m:t></m:r></m:num>
-        <m:den><m:r><m:t>x-2</m:t></m:r></m:den>
-    </m:f>""".replace(
-            " ", ""
+            <m:f>
+                <m:num><m:r><m:t>2</m:t></m:r></m:num>
+                <m:den><m:r><m:t>x-2</m:t></m:r></m:den>
+            </m:f>""".replace(
+                    " ", ""
         ).replace(
             "\n", ""
         )
@@ -32,14 +32,14 @@ def test_make_aligned_equation():
     assert (
         make_aligned_equation(left, right)._render_to_omml().replace(" ", "")
         == """
-    <m:oMath>
-        <m:r><m:t>x+3</m:t></m:r>
-        <m:r><m:rPr><m:aln /></m:rPr><m:t>=</m:t></m:r>
-        <m:f>
-            <m:num><m:r><m:t>2</m:t></m:r></m:num><m:den>
-            <m:r><m:t>x-2</m:t></m:r></m:den>
-        </m:f>
-    </m:oMath>""".replace(
+            <m:oMath>
+                <m:r><m:t>x+3</m:t></m:r>
+                <m:r><m:rPr><m:aln /></m:rPr><m:t>=</m:t></m:r>
+                <m:f>
+                    <m:num><m:r><m:t>2</m:t></m:r></m:num><m:den>
+                    <m:r><m:t>x-2</m:t></m:r></m:den>
+                </m:f>
+            </m:oMath>""".replace(
             " ", ""
         ).replace(
             "\n", ""
