@@ -46,7 +46,7 @@ class Text(Element):
     omml_tag = "m:t"
 
     def __init__(self, text: str, **kwargs):
-        self.text = text
+        self.text = str(text)
         self.attributes = kwargs
 
     def _render_to_omml(self):
@@ -101,7 +101,7 @@ class LineBreak(EmptyElement):
 
 
 class Math(Element):
-    omml_tag = "m:omath"
+    omml_tag = "m:oMath"
 
 
 class MathPara(Element):
