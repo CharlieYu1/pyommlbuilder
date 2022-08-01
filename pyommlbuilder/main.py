@@ -1,4 +1,3 @@
-from queue import Empty
 from typing import List, Union, Any
 
 
@@ -127,11 +126,31 @@ class FractionPropertyBarType(FractionProperty, EmptyElement):
         self.attributes = kwargs
 
 
-class Numerator(Element):
+class WrappedTextElement(Element):
+    omml_tag = None
+
+    def __init__(self, elements, **kwargs):
+        def wrap_text_in_r_t(maybe_text) -> Element:
+            if isinstance(maybe_text, str):
+                return Run([Text(maybe_text)])
+            if isinstance(maybe_text, Text):
+                return Run([maybe_text])
+            if isinstance(maybe_text, Run) and isinstance(
+                maybe_text._elements[0], Text
+            ):
+                return maybe_text
+            raise Exception("Input must be either text or text-like")
+
+        if not isinstance(elements, list):
+            elements = [wrap_text_in_r_t(elements)]
+        super().__init__(elements, **kwargs)
+
+
+class Numerator(WrappedTextElement):
     omml_tag = "m:num"
 
 
-class Denominator(Element):
+class Denominator(WrappedTextElement):
     omml_tag = "m:den"
 
 
@@ -141,9 +160,9 @@ class Fraction(Element):
     def __init__(self, elements, **kwargs):
         super().__init__(elements, **kwargs)
         if not isinstance(self._elements[-2], Numerator):
-            self._elements[-2] = Numerator([self._elements[-2]])
+            self._elements[-2] = Numerator(self._elements[-2])
         if not isinstance(self._elements[-1], Denominator):
-            self._elements[-1] = Denominator([self._elements[-1]])
+            self._elements[-1] = Denominator(self._elements[-1])
         assert (len(self._elements) == 2) or (
             len(self._elements) == 3 and isinstance(self._elements[0], FractionProperty)
         )
