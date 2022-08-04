@@ -1,2 +1,3 @@
-setup.pyc
 .pytest_cache
+*.pyc
+*.egg-info
