@@ -1,4 +1,5 @@
 from typing import List, Union, Sequence, Any
+from lxml import etree as ET
 
 
 class Element(object):
@@ -35,9 +36,16 @@ class Element(object):
             return f"{''.join(rendered_elements)}"
         return f"<{cls.omml_tag}{xml_attributes}>{''.join(rendered_elements)}</{cls.omml_tag}>"
 
+    def _as_xml_element(self):
+        parser = ET.XMLParser(recover=True)
+        return ET.fromstring(self._render_to_omml(), parser)
+
 
 class ElementList(Element):
     omml_tag = None  # a list of elements that does not belong to a parent element
+
+    def _as_xml_element(self):
+        raise Exception("cannot convert an ElementList to a XML element")
 
 
 class Run(Element):

@@ -1,4 +1,5 @@
 from ast import Expression
+import lxml
 from pyommlbuilder.main import (
     ElementList,
     Run,
@@ -17,6 +18,14 @@ from pyommlbuilder.main import (
 def test_simple_expression():
     expression = Run(Text("x+3"))
     assert expression._render_to_omml() == "<m:r><m:t>x+3</m:t></m:r>"
+    xml_element = expression._as_xml_element()
+    assert isinstance(xml_element, lxml.etree._Element)
+    assert xml_element.tag == "m:r"
+    children = xml_element.getchildren()
+    assert len(children) == 1
+    first_child = children[0]
+    assert first_child.tag == "m:t"
+    assert first_child.text == "x+3"
 
 
 def test_element_property():
