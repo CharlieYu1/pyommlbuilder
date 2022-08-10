@@ -1,6 +1,8 @@
 # pyommlbuilder
 A Python package that helps with building OMML tags for use in docx files.
 
+For reference of OMML standards, please refer to P.3603-3723 of part 1 of ECMA-376, which defines the standards of Open Office XML, and can be downloaded [here](https://www.ecma-international.org/publications-and-standards/standards/ecma-376/).
+
 Simple example:
 
     from pyommlbuilder.main import Math, Fraction, Numerator, Denominator, SquareRoot, SuperscriptObject
@@ -23,4 +25,3 @@ Simple example:
 
     doc.save("quadratic.docx")
 
-For reference of OMML standards, please refer to P.3603-3723 of part 1 of ECMA-376, which defines the standards of Open Office XML, and can be downloaded [here](https://www.ecma-international.org/publications-and-standards/standards/ecma-376/).
