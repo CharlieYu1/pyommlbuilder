@@ -22,3 +22,5 @@ Simple example:
     p._element.append(xml_element)
 
     doc.save("quadratic.docx")
+
+For reference of OMML standards, please refer to P.3603-3723 of part 1 of ECMA-376, which defines the standards of Open Office XML, and can be downloaded [here](https://www.ecma-international.org/publications-and-standards/standards/ecma-376/).
