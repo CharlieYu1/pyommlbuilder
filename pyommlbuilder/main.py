@@ -1,5 +1,13 @@
+from tokenize import maybe
 from typing import List, Union, Sequence, Any
 from lxml import etree as ET
+
+
+def wrap_text(maybe_text: Union[str, "Text", "Element"]):
+    if isinstance(maybe_text, str):
+        return Run([Text(maybe_text)])
+    else:
+        return maybe_text
 
 
 class Element(object):
@@ -8,9 +16,9 @@ class Element(object):
     def __init__(self, elements, **kwargs):
 
         if isinstance(elements, list):
-            self._elements = elements
+            self._elements = list(map(wrap_text, elements))
         else:
-            self._elements = [elements]
+            self._elements = [wrap_text(elements)]
         self.attributes = kwargs
 
     def __eq__(self, other: "Element"):
@@ -117,26 +125,6 @@ class Math(Element):
 
 class MathPara(Element):
     omml_tag = "m:oMathPara"
-
-
-class WrappedTextElement(Element):
-    omml_tag = None
-
-    def __init__(self, elements, **kwargs):
-        def wrap_text_in_r_t(maybe_text) -> Element:
-            if isinstance(maybe_text, str):
-                return Run(Text(maybe_text))
-            if isinstance(maybe_text, Text):
-                return Run(maybe_text)
-            if isinstance(maybe_text, Run) and isinstance(
-                maybe_text._elements[0], Text
-            ):
-                return maybe_text
-            raise Exception("Input must be either text or text-like")
-
-        if not isinstance(elements, list):
-            elements = [wrap_text_in_r_t(elements)]
-        super().__init__(elements, **kwargs)
 
 
 class FractionProperty(Element):

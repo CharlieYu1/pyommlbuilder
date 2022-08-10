@@ -7,7 +7,6 @@ from pyommlbuilder.main import (
     Fraction,
     Numerator,
     Denominator,
-    WrappedTextElement,
     SquareRoot,
     SuperscriptObject,
 )
@@ -30,26 +29,26 @@ def test_simple_expresson():
 def test_quadratic_equation():
     expression = Math(
         [
-            WrappedTextElement("x="),
+            "x=",
             Fraction(
                 [
                     Numerator(
                         [
-                            WrappedTextElement("-b±"),
+                            "-b±",
                             SquareRoot(
                                 [
                                     SuperscriptObject(
                                         [
-                                            WrappedTextElement("x"),
-                                            WrappedTextElement("2"),
+                                            "b",
+                                            "2",
                                         ]
                                     ),
-                                    WrappedTextElement("-4ac"),
+                                    "-4ac",
                                 ]
                             ),
                         ]
                     ),
-                    Denominator(WrappedTextElement("2a")),
+                    Denominator("2a"),
                 ]
             ),
         ]
@@ -61,7 +60,6 @@ def test_quadratic_equation():
     p = doc.add_paragraph()
     p._element.append(xml_element)
     doc_blob = doc._part.blob
-    print(doc_blob)
     assert len(doc_blob) == 1883
     assert b"degHide" in doc_blob
     assert b"m:num" in doc_blob

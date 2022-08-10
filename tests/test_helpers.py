@@ -1,21 +1,19 @@
 from textwrap import wrap
-from pyommlbuilder.main import Run, Text, Fraction, WrappedTextElement
+from pyommlbuilder.main import Run, Text, Fraction, wrap_text
 from pyommlbuilder.helpers import make_aligned_equation
 
 
-def test_wrapped_element_in_r_t():
+def test_wrap_text():
     expression1 = "2x+y"
-    expression2 = Text("2x+y")
-    expression3 = Run([Text("2x+y")])
+    expression2 = Run([Text("2x+y")])
     correct_output = "<m:r><m:t>2x+y</m:t></m:r>"
-    assert WrappedTextElement(expression1)._render_to_omml() == correct_output
-    assert WrappedTextElement(expression2)._render_to_omml() == correct_output
-    assert WrappedTextElement(expression3)._render_to_omml() == correct_output
+    assert wrap_text(expression1)._render_to_omml() == correct_output
+    assert wrap_text(expression2)._render_to_omml() == correct_output
 
 
 def test_make_aligned_equation():
-    left = WrappedTextElement("x+3")
-    right = Fraction([WrappedTextElement("2"), WrappedTextElement("x-2")])
+    left = "x+3"
+    right = Fraction(["2", "x-2"])
 
     assert (
         right._render_to_omml()

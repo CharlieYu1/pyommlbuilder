@@ -4,9 +4,7 @@ from pyommlbuilder.main import (
     ElementList,
     Run,
     Text,
-    NormalText,
     RunPropertyNormalText,
-    WrappedTextElement,
     AlignedEqual,
     Numerator,
     Denominator,
@@ -39,7 +37,7 @@ def test_element_property():
 
 
 def test_element_list():
-    expression = ElementList([Run([Text("x+3")]), Run([Text("12")])])
+    expression = ElementList(["x+3", "12"])
     assert (
         expression._render_to_omml()
         == "<m:r><m:t>x+3</m:t></m:r><m:r><m:t>12</m:t></m:r>"
@@ -68,7 +66,7 @@ def test_fraction():
 
 
 def test_square_root():
-    expression = SquareRoot(WrappedTextElement("x+5"))
+    expression = SquareRoot("x+5")
     assert (
         expression._render_to_omml()
         == '<m:rad><m:radPr><m:degHide m:val="1" /></m:radPr><m:deg /><m:e><m:r><m:t>x+5</m:t></m:r></m:e></m:rad>'
@@ -76,7 +74,7 @@ def test_square_root():
 
 
 def test_radical():
-    expression = Radical([WrappedTextElement("3"), WrappedTextElement("2x-4")])
+    expression = Radical(["3", "2x-4"])
     assert (
         expression._render_to_omml()
         == "<m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad>"
@@ -84,7 +82,7 @@ def test_radical():
 
 
 def test_superscript():
-    expression = SuperscriptObject([WrappedTextElement("x"), WrappedTextElement("2")])
+    expression = SuperscriptObject(["x", "2"])
     assert (
         expression._render_to_omml()
         == "<m:sSup><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup>"
@@ -92,7 +90,7 @@ def test_superscript():
 
 
 def test_subscript():
-    expression = SubscriptObject([WrappedTextElement("x"), WrappedTextElement("2")])
+    expression = SubscriptObject(["x", "2"])
     assert (
         expression._render_to_omml()
         == "<m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>2</m:t></m:r></m:sub></m:sSub>"
@@ -102,26 +100,26 @@ def test_subscript():
 def test_quadratic_equation():
     expression = Math(
         [
-            WrappedTextElement("x="),
+            "x=",
             Fraction(
                 [
                     Numerator(
                         [
-                            WrappedTextElement("-b±"),
+                            "-b±",
                             SquareRoot(
                                 [
                                     SuperscriptObject(
                                         [
-                                            WrappedTextElement("x"),
-                                            WrappedTextElement("2"),
+                                            "b",
+                                            "2",
                                         ]
                                     ),
-                                    WrappedTextElement("-4ac"),
+                                    "-4ac",
                                 ]
                             ),
                         ]
                     ),
-                    Denominator(WrappedTextElement("2a")),
+                    Denominator("2a"),
                 ]
             ),
         ]
@@ -129,5 +127,5 @@ def test_quadratic_equation():
 
     assert (
         expression._render_to_omml()
-        == '<m:oMath><m:r><m:t>x=</m:t></m:r><m:f><m:num><m:r><m:t>-b±</m:t></m:r><m:rad><m:radPr><m:degHide m:val="1" /></m:radPr><m:deg /><m:e><m:sSup><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup><m:r><m:t>-4ac</m:t></m:r></m:e></m:rad></m:num><m:den><m:r><m:t>2a</m:t></m:r></m:den></m:f></m:oMath>'
+        == '<m:oMath><m:r><m:t>x=</m:t></m:r><m:f><m:num><m:r><m:t>-b±</m:t></m:r><m:rad><m:radPr><m:degHide m:val="1" /></m:radPr><m:deg /><m:e><m:sSup><m:e><m:r><m:t>b</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup><m:r><m:t>-4ac</m:t></m:r></m:e></m:rad></m:num><m:den><m:r><m:t>2a</m:t></m:r></m:den></m:f></m:oMath>'
     )
