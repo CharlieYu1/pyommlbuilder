@@ -15,7 +15,7 @@ def test_wrapped_element_in_r_t():
 
 def test_make_aligned_equation():
     left = WrappedTextElement("x+3")
-    right = Fraction(["2", "x-2"])
+    right = Fraction([WrappedTextElement("2"), WrappedTextElement("x-2")])
 
     assert (
         right._render_to_omml()
@@ -29,6 +29,7 @@ def test_make_aligned_equation():
             "\n", ""
         )
     )
+
     assert (
         make_aligned_equation(left, right)._render_to_omml().replace(" ", "")
         == """

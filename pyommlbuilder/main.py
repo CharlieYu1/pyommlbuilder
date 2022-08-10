@@ -6,6 +6,7 @@ class Element(object):
     omml_tag = "m:e"
 
     def __init__(self, elements, **kwargs):
+
         if isinstance(elements, list):
             self._elements = elements
         else:
@@ -157,11 +158,11 @@ class FractionPropertyBarType(FractionProperty, EmptyElement):
         self.attributes = kwargs
 
 
-class Numerator(WrappedTextElement):
+class Numerator(Element):
     omml_tag = "m:num"
 
 
-class Denominator(WrappedTextElement):
+class Denominator(Element):
     omml_tag = "m:den"
 
 
@@ -222,4 +223,64 @@ class Radical(Element):
 
 class SquareRoot(Radical):
     def __init__(self, radicand, **kwargs):
-        super().__init__([RadicalPropertyDegreeHide(), [], [radicand]], **kwargs)
+        super().__init__([RadicalPropertyDegreeHide(), [], radicand], **kwargs)
+
+
+class SuperscriptProperty(Element):
+    omml_tag = "m:sSubPr"
+
+
+class Superscript(Element):
+    omml_tag = "m:sup"
+
+
+class SuperscriptBase(Element):
+    omml_tag = "m:e"
+
+
+class SuperscriptObject(Element):
+    omml_tag = "m:sSup"
+
+    def __init__(self, elements, **kwargs):
+        super().__init__(elements, **kwargs)
+        if not (
+            isinstance(self._elements[-2], Element)
+            and self._elements[-2].omml_tag == "m:e"
+        ):
+            self._elements[-2] = Element(self._elements[-2])
+        if not isinstance(self._elements[-1], SuperscriptBase):
+            self._elements[-1] = Superscript(self._elements[-1])
+        assert (len(self._elements) == 2) or (
+            len(self._elements) == 3
+            and isinstance(self._elements[0], SuperscriptProperty)
+        )
+
+
+class SubscriptProperty(Element):
+    omml_tag = "m:sSubPr"
+
+
+class Subscript(Element):
+    omml_tag = "m:sub"
+
+
+class SubscriptBase(Element):
+    omml_tag = "m:e"
+
+
+class SubscriptObject(Element):
+    omml_tag = "m:sSub"
+
+    def __init__(self, elements, **kwargs):
+        super().__init__(elements, **kwargs)
+        if not (
+            isinstance(self._elements[-2], Element)
+            and self._elements[-2].omml_tag == "m:e"
+        ):
+            self._elements[-2] = Element(self._elements[-2])
+        if not isinstance(self._elements[-1], SubscriptBase):
+            self._elements[-1] = Subscript(self._elements[-1])
+        assert (len(self._elements) == 2) or (
+            len(self._elements) == 3
+            and isinstance(self._elements[0], SubscriptProperty)
+        )

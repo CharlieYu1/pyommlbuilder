@@ -8,10 +8,15 @@ from pyommlbuilder.main import (
     RunPropertyNormalText,
     WrappedTextElement,
     AlignedEqual,
+    Numerator,
+    Denominator,
     Fraction,
     FractionPropertyBarType,
     Radical,
     SquareRoot,
+    SuperscriptObject,
+    SubscriptObject,
+    Math,
 )
 
 
@@ -75,4 +80,54 @@ def test_radical():
     assert (
         expression._render_to_omml()
         == "<m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad>"
+    )
+
+
+def test_superscript():
+    expression = SuperscriptObject([WrappedTextElement("x"), WrappedTextElement("2")])
+    assert (
+        expression._render_to_omml()
+        == "<m:sSup><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup>"
+    )
+
+
+def test_subscript():
+    expression = SubscriptObject([WrappedTextElement("x"), WrappedTextElement("2")])
+    assert (
+        expression._render_to_omml()
+        == "<m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>2</m:t></m:r></m:sub></m:sSub>"
+    )
+
+
+def test_quadratic_equation():
+    expression = Math(
+        [
+            WrappedTextElement("x="),
+            Fraction(
+                [
+                    Numerator(
+                        [
+                            WrappedTextElement("-b±"),
+                            SquareRoot(
+                                [
+                                    SuperscriptObject(
+                                        [
+                                            WrappedTextElement("x"),
+                                            WrappedTextElement("2"),
+                                        ]
+                                    ),
+                                    WrappedTextElement("-4ac"),
+                                ]
+                            ),
+                        ]
+                    ),
+                    Denominator(WrappedTextElement("2a")),
+                ]
+            ),
+        ]
+    )
+
+    assert (
+        expression._render_to_omml()
+        == '<m:oMath><m:r><m:t>x=</m:t></m:r><m:f><m:num><m:r><m:t>-b±</m:t></m:r><m:rad><m:radPr><m:degHide m:val="1" /></m:radPr><m:deg /><m:e><m:sSup><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup><m:r><m:t>-4ac</m:t></m:r></m:e></m:rad></m:num><m:den><m:r><m:t>2a</m:t></m:r></m:den></m:f></m:oMath>'
     )
