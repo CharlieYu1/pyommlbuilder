@@ -2,6 +2,7 @@ import docx
 from pyommlbuilder.main import MathPara, Math, Run, Text
 from pyommlbuilder.helpers import hash_file
 
+
 def test_simple_expresson():
     expression = MathPara(Math(Run(Text("x+3"))))
     xml_element = expression._as_xml_element()
