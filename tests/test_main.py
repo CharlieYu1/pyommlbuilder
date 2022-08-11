@@ -89,6 +89,14 @@ def test_superscript():
     )
 
 
+def test_radical_and_superscript():
+    expression = SuperscriptObject(["(", Radical("3", "2x-4"), "+7)"], "2")
+    assert (
+        expression._render_to_omml()
+        == "<m:sSup><m:e><m:r><m:t>(</m:t></m:r><m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad><m:r><m:t>+7)</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup>"
+    )
+
+
 def test_subscript():
     expression = SubscriptObject("x", "2")
     assert (
