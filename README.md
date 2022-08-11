@@ -42,6 +42,7 @@ Example of an equation block:
     doc = docx.Document()
     p = doc.add_paragraph()
     p._element.append(xml_element)
+    
     doc.save("equation_block.docx")
 
 
