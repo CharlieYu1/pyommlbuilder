@@ -13,9 +13,11 @@ def wrap_text(maybe_text: Union[str, "Text", "Element"]):
 class Element(object):
     omml_tag = "m:e"
 
-    def __init__(self, elements, **kwargs):
+    def __init__(self, *elements, **kwargs):
 
-        if isinstance(elements, list):
+        if len(elements) == 1:
+            elements = elements[0]
+        if isinstance(elements, list) or isinstance(elements, tuple):
             self._elements = list(map(wrap_text, elements))
         else:
             self._elements = [wrap_text(elements)]
@@ -157,8 +159,8 @@ class Denominator(Element):
 class Fraction(Element):
     omml_tag = "m:f"
 
-    def __init__(self, elements, **kwargs):
-        super().__init__(elements, **kwargs)
+    def __init__(self, *elements, **kwargs):
+        super().__init__(list(elements), **kwargs)
         if not isinstance(self._elements[-2], Numerator):
             self._elements[-2] = Numerator(self._elements[-2])
         if not isinstance(self._elements[-1], Denominator):
@@ -198,8 +200,8 @@ class Radicand(Element):
 class Radical(Element):
     omml_tag = "m:rad"
 
-    def __init__(self, elements, **kwargs):
-        super().__init__(elements, **kwargs)
+    def __init__(self, *elements, **kwargs):
+        super().__init__(list(elements), **kwargs)
         if not isinstance(self._elements[-2], RadicalDegree):
             self._elements[-2] = RadicalDegree(self._elements[-2])
         if not isinstance(self._elements[-1], Radicand):
@@ -211,7 +213,7 @@ class Radical(Element):
 
 class SquareRoot(Radical):
     def __init__(self, radicand, **kwargs):
-        super().__init__([RadicalPropertyDegreeHide(), [], radicand], **kwargs)
+        super().__init__(RadicalPropertyDegreeHide(), [], radicand, **kwargs)
 
 
 class SuperscriptProperty(Element):
@@ -229,8 +231,8 @@ class SuperscriptBase(Element):
 class SuperscriptObject(Element):
     omml_tag = "m:sSup"
 
-    def __init__(self, elements, **kwargs):
-        super().__init__(elements, **kwargs)
+    def __init__(self, *elements, **kwargs):
+        super().__init__(list(elements), **kwargs)
         if not (
             isinstance(self._elements[-2], Element)
             and self._elements[-2].omml_tag == "m:e"
@@ -259,8 +261,8 @@ class SubscriptBase(Element):
 class SubscriptObject(Element):
     omml_tag = "m:sSub"
 
-    def __init__(self, elements, **kwargs):
-        super().__init__(elements, **kwargs)
+    def __init__(self, *elements, **kwargs):
+        super().__init__(list(elements), **kwargs)
         if not (
             isinstance(self._elements[-2], Element)
             and self._elements[-2].omml_tag == "m:e"

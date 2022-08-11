@@ -8,13 +8,13 @@ Simple example:
     from pyommlbuilder.main import Math, Fraction, Numerator, Denominator, SquareRoot, SuperscriptObject
     import docx
 
-    expression = Math([
+    expression = Math(
         "x=",
-        Fraction([
-            Numerator(["-b±", SquareRoot([SuperscriptObject(["b", "2"]), "-4ac"])]), 
+        Fraction(
+            Numerator("-b±", SquareRoot([SuperscriptObject(["b", "2"]), "-4ac"])), 
             Denominator("2a"),
-        ]),
-    ])
+        ),
+    )
 
 
     xml_element = expression._as_xml_element()

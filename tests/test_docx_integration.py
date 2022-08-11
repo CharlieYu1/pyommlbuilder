@@ -28,30 +28,22 @@ def test_simple_expresson():
 
 def test_quadratic_equation():
     expression = Math(
-        [
-            "x=",
-            Fraction(
-                [
-                    Numerator(
-                        [
-                            "-b±",
-                            SquareRoot(
-                                [
-                                    SuperscriptObject(
-                                        [
-                                            "b",
-                                            "2",
-                                        ]
-                                    ),
-                                    "-4ac",
-                                ]
-                            ),
-                        ]
-                    ),
-                    Denominator("2a"),
-                ]
+        "x=",
+        Fraction(
+            Numerator(
+                "-b±",
+                SquareRoot(
+                    [
+                        SuperscriptObject(
+                            "b",
+                            "2",
+                        ),
+                        "-4ac",
+                    ]
+                ),
             ),
-        ]
+            Denominator("2a"),
+        ),
     )
 
     xml_element = expression._as_xml_element()

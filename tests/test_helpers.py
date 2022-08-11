@@ -5,7 +5,7 @@ from pyommlbuilder.helpers import make_aligned_equation
 
 def test_wrap_text():
     expression1 = "2x+y"
-    expression2 = Run([Text("2x+y")])
+    expression2 = Run(Text("2x+y"))
     correct_output = "<m:r><m:t>2x+y</m:t></m:r>"
     assert wrap_text(expression1)._render_to_omml() == correct_output
     assert wrap_text(expression2)._render_to_omml() == correct_output
@@ -13,7 +13,7 @@ def test_wrap_text():
 
 def test_make_aligned_equation():
     left = "x+3"
-    right = Fraction(["2", "x-2"])
+    right = Fraction("2", "x-2")
 
     assert (
         right._render_to_omml()
