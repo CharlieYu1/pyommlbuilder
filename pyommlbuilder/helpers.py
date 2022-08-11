@@ -1,13 +1,18 @@
-from .main import Run, Text, Element, ElementList, AlignedEqual, Math
+from .main import Run, Text, Element, ElementList, AlignedEqual, LineBreak, Math
 import hashlib
 
 
-def make_aligned_equation(left: ElementList, right: ElementList):
+def make_aligned_equation(
+    left: ElementList, right: ElementList, line_break: bool = True
+):
     if not isinstance(left, ElementList):
         left = ElementList(left)
     if not isinstance(right, ElementList):
         right = ElementList(right)
-    return Math(left._elements + [AlignedEqual()] + right._elements)
+    return_value = Math(left._elements + [AlignedEqual()] + right._elements)
+    if line_break:
+        return_value.append(LineBreak())
+    return return_value
 
 
 def hash_file(filename):

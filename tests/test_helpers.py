@@ -1,5 +1,5 @@
 from textwrap import wrap
-from pyommlbuilder.main import Run, Text, Fraction, wrap_text
+from pyommlbuilder.main import Run, Text, Fraction, wrap_text, MathPara
 from pyommlbuilder.helpers import make_aligned_equation
 
 
@@ -29,7 +29,9 @@ def test_make_aligned_equation():
     )
 
     assert (
-        make_aligned_equation(left, right)._render_to_omml().replace(" ", "")
+        make_aligned_equation(left, right, line_break=False)
+        ._render_to_omml()
+        .replace(" ", "")
         == """
             <m:oMath>
                 <m:r><m:t>x+3</m:t></m:r>
@@ -43,4 +45,17 @@ def test_make_aligned_equation():
         ).replace(
             "\n", ""
         )
+    )
+
+
+def test_make_aligned_equation_block():
+    line1 = make_aligned_equation("x+3", "8")
+    line2 = make_aligned_equation("x", "8-3")
+    line3 = make_aligned_equation("", "5")
+
+    equation_block = MathPara(line1, line2, line3)
+    print(equation_block._render_to_omml())
+    assert (
+        equation_block._render_to_omml()
+        == "<m:oMathPara><m:oMath><m:r><m:t>x+3</m:t></m:r><m:r><m:rPr><m:aln /></m:rPr><m:t>=</m:t></m:r><m:r><m:t>8</m:t></m:r><w:br /></m:oMath><m:oMath><m:r><m:t>x</m:t></m:r><m:r><m:rPr><m:aln /></m:rPr><m:t>=</m:t></m:r><m:r><m:t>8-3</m:t></m:r><w:br /></m:oMath><m:oMath><m:r><m:t></m:t></m:r><m:r><m:rPr><m:aln /></m:rPr><m:t>=</m:t></m:r><m:r><m:t>5</m:t></m:r><w:br /></m:oMath></m:oMathPara>"
     )
