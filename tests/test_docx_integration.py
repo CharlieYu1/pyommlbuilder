@@ -61,9 +61,9 @@ def test_quadratic_equation():
 
 
 def test_make_aligned_equation_block():
-    line1 = make_aligned_equation("x+3", "8")
+    line1 = make_aligned_equation("x+3", 8)
     line2 = make_aligned_equation("x", "8-3")
-    line3 = make_aligned_equation("", "5")
+    line3 = make_aligned_equation("", 5)
 
     equation_block = MathPara(line1, line2, line3)
 

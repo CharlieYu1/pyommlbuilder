@@ -1,11 +1,15 @@
 from tokenize import maybe
-from typing import List, Union, Sequence, Any
+from typing import List, Union, Sequence
+from numbers import Number
 from lxml import etree as ET
 
 
-def wrap_text(maybe_text: Union[str, "Text", "Element"]):
+def wrap_text(maybe_text: Union[str, Number, "Text", "Element"]):
     if isinstance(maybe_text, str):
-        return Run([Text(maybe_text)])
+        return Run(Text(maybe_text))
+    elif not isinstance(maybe_text, Element) and not isinstance(maybe_text, Sequence):
+        print(maybe_text)
+        return Run(Text(str(maybe_text)))
     else:
         return maybe_text
 
@@ -22,6 +26,7 @@ class Element(object):
         else:
             self._elements = [wrap_text(elements)]
         self.attributes = kwargs
+
 
     def __eq__(self, other: "Element"):
         return (self._elements == other._elements) and (

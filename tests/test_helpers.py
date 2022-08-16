@@ -13,7 +13,7 @@ def test_wrap_text():
 
 def test_make_aligned_equation():
     left = "x+3"
-    right = Fraction("2", "x-2")
+    right = Fraction(2, "x-2")
 
     assert (
         right._render_to_omml()
@@ -49,9 +49,9 @@ def test_make_aligned_equation():
 
 
 def test_make_aligned_equation_block():
-    line1 = make_aligned_equation("x+3", "8")
+    line1 = make_aligned_equation("x+3", 8)
     line2 = make_aligned_equation("x", "8-3")
-    line3 = make_aligned_equation("", "5")
+    line3 = make_aligned_equation("", 5)
 
     equation_block = MathPara(line1, line2, line3)
     print(equation_block._render_to_omml())

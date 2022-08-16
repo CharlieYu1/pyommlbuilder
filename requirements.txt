@@ -1,1 +1,2 @@
 python-docx>=0.8.11
+sympy>=1.10.0

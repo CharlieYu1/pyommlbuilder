@@ -37,7 +37,7 @@ def test_element_property():
 
 
 def test_element_list():
-    expression = ElementList("x+3", "12")
+    expression = ElementList("x+3", 12)
     assert (
         expression._render_to_omml()
         == "<m:r><m:t>x+3</m:t></m:r><m:r><m:t>12</m:t></m:r>"
@@ -58,7 +58,7 @@ def test_aligned_equal():
 
 
 def test_fraction():
-    expression = Fraction(FractionPropertyBarType(), Run(Text(1)), Run(Text(3)))
+    expression = Fraction(FractionPropertyBarType(), 1, 3)
     assert (
         expression._render_to_omml()
         == '<m:f><m:fPr><m:type m:val="skw" /></m:fPr><m:num><m:r><m:t>1</m:t></m:r></m:num><m:den><m:r><m:t>3</m:t></m:r></m:den></m:f>'
@@ -74,7 +74,7 @@ def test_square_root():
 
 
 def test_radical():
-    expression = Radical("3", "2x-4")
+    expression = Radical(3, "2x-4")
     assert (
         expression._render_to_omml()
         == "<m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad>"
@@ -90,7 +90,7 @@ def test_superscript():
 
 
 def test_radical_and_superscript():
-    expression = SuperscriptObject(["(", Radical("3", "2x-4"), "+7)"], "2")
+    expression = SuperscriptObject(["(", Radical(3, "2x-4"), "+7)"], 2)
     assert (
         expression._render_to_omml()
         == "<m:sSup><m:e><m:r><m:t>(</m:t></m:r><m:rad><m:deg><m:r><m:t>3</m:t></m:r></m:deg><m:e><m:r><m:t>2x-4</m:t></m:r></m:e></m:rad><m:r><m:t>+7)</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup>"
@@ -98,7 +98,7 @@ def test_radical_and_superscript():
 
 
 def test_subscript():
-    expression = SubscriptObject("x", "2")
+    expression = SubscriptObject("x", 2)
     assert (
         expression._render_to_omml()
         == "<m:sSub><m:e><m:r><m:t>x</m:t></m:r></m:e><m:sub><m:r><m:t>2</m:t></m:r></m:sub></m:sSub>"
@@ -115,7 +115,7 @@ def test_quadratic_equation():
                     [
                         SuperscriptObject(
                             "b",
-                            "2",
+                            2,
                         ),
                         "-4ac",
                     ],
