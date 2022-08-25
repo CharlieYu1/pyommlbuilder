@@ -27,7 +27,6 @@ class Element(object):
             self._elements = [wrap_text(elements)]
         self.attributes = kwargs
 
-
     def __eq__(self, other: "Element"):
         return (self._elements == other._elements) and (
             self.attributes == other.attributes
@@ -104,6 +103,16 @@ class RunProperty(Element):
     omml_tag = "m:rPr"
 
 
+class Style(Element):
+    omml_tag = "m:sty"
+
+
+class PlainStyle(Style):
+    def __init__(self, **kwargs):
+        kwargs.update({"m:val": "p"})
+        super().__init__(**kwargs)
+
+
 class RunPropertyNormalText(RunProperty, EmptyElement):
     def __init__(self, **kwargs):
         self._elements = [NormalText()]
@@ -113,6 +122,12 @@ class RunPropertyNormalText(RunProperty, EmptyElement):
 class RunPropertyAlign(RunProperty, EmptyElement):
     def __init__(self, **kwargs):
         self._elements = [Align()]
+        self.attributes = kwargs
+
+
+class RunPropertyPlainStyle(RunProperty):
+    def __init__(self, **kwargs):
+        self._elements = [PlainStyle()]
         self.attributes = kwargs
 
 
@@ -172,6 +187,32 @@ class Fraction(Element):
             self._elements[-1] = Denominator(self._elements[-1])
         assert (len(self._elements) == 2) or (
             len(self._elements) == 3 and isinstance(self._elements[0], FractionProperty)
+        )
+
+
+class FunctionProperty(Element):
+    omml_tag = "m:funcPr"
+
+
+class FunctionName(Element):
+    omml_tag = "m:fName"
+
+
+class FunctionArgument(Element):
+    omml_tag = "m:e"
+
+
+class Function(Element):
+    omml_tag = "m:func"
+
+    def __init__(self, *elements, **kwargs):
+        super().__init__(list(elements), **kwargs)
+        if not isinstance(self._elements[-2], FunctionName):
+            self._elements[-2] = FunctionName(self._elements[-2])
+        if not isinstance(self._elements[-1], FunctionArgument):
+            self._elements[-1] = FunctionArgument(self._elements[-1])
+        assert (len(self._elements) == 2) or (
+            len(self._elements) == 3 and isinstance(self._elements[0], FunctionProperty)
         )
 
 

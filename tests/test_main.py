@@ -15,6 +15,9 @@ from pyommlbuilder.main import (
     SuperscriptObject,
     SubscriptObject,
     Math,
+    Function,
+    RunPropertyPlainStyle,
+    FunctionName,
 )
 
 
@@ -128,4 +131,17 @@ def test_quadratic_equation():
     assert (
         expression._render_to_omml()
         == '<m:oMath><m:r><m:t>x=</m:t></m:r><m:f><m:num><m:r><m:t>-b±</m:t></m:r><m:rad><m:radPr><m:degHide m:val="1" /></m:radPr><m:deg /><m:e><m:sSup><m:e><m:r><m:t>b</m:t></m:r></m:e><m:sup><m:r><m:t>2</m:t></m:r></m:sup></m:sSup><m:r><m:t>-4ac</m:t></m:r></m:e></m:rad></m:num><m:den><m:r><m:t>2a</m:t></m:r></m:den></m:f></m:oMath>'
+    )
+
+
+def test_run_property_plain_style():
+    expression = RunPropertyPlainStyle()
+    assert expression._render_to_omml() == '<m:rPr><m:sty m:val="p" /></m:rPr>'
+
+
+def test_function():
+    expression = Function(Run(RunPropertyPlainStyle(), Text("sin")), "30°")
+    assert (
+        expression._render_to_omml()
+        == '<m:func><m:fName><m:r><m:rPr><m:sty m:val="p" /></m:rPr><m:t>sin</m:t></m:r></m:fName><m:e><m:r><m:t>30°</m:t></m:r></m:e></m:func>'
     )
