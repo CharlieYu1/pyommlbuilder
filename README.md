@@ -29,6 +29,7 @@ Example of quadratic equation:
 Example of an equation block:
 
     from pyommlbuilder.main import MathPara
+    from pyommlbuilder.helpers import make_aligned_equation
     import docx
 
     line1 = make_aligned_equation("x+3", "8")
