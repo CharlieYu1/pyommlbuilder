@@ -1,4 +1,4 @@
-from .main import Run, Text, Element, ElementList, AlignedEqual, LineBreak, Math
+from .main import Run, Text, Element, ElementList, AlignedEqual, LineBreak, Math, RunPropertyNormalText
 import hashlib
 
 
@@ -13,6 +13,9 @@ def make_aligned_equation(
     if line_break:
         return_value.append(LineBreak())
     return return_value
+
+def normal_text(text):
+    return Run(RunPropertyNormalText(), Text(text))
 
 
 def hash_file(filename):
