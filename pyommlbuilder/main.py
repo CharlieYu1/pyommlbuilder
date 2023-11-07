@@ -8,7 +8,6 @@ def wrap_text(maybe_text: Union[str, Number, "Text", "Element"]):
     if isinstance(maybe_text, str):
         return Run(Text(maybe_text))
     elif not isinstance(maybe_text, Element) and not isinstance(maybe_text, Sequence):
-        print(maybe_text)
         return Run(Text(str(maybe_text)))
     else:
         return maybe_text

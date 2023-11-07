@@ -11,7 +11,7 @@ Example of quadratic equation:
     expression = Math(
         "x=",
         Fraction(
-            Numerator("-b±", SquareRoot([SuperscriptObject(["b", "2"]), "-4ac"])), 
+            Numerator("-b±", SquareRoot([SuperscriptObject("b", "2"), "-4ac"])), 
             Denominator("2a"),
         ),
     )
