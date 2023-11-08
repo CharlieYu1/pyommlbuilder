@@ -1,4 +1,13 @@
-from .main import Run, Text, Element, ElementList, AlignedEqual, LineBreak, Math, RunPropertyNormalText
+from .main import (
+    Run,
+    Text,
+    Element,
+    ElementList,
+    AlignedEqual,
+    LineBreak,
+    Math,
+    RunPropertyNormalText,
+)
 import hashlib
 
 
@@ -14,8 +23,18 @@ def make_aligned_equation(
         return_value.append(LineBreak())
     return return_value
 
+
 def normal_text(text):
     return Run(RunPropertyNormalText(), Text(text))
+
+
+def save_xml_element_as_docx(element: Element, filename: str):
+    import docx
+
+    doc = docx.Document()
+    p = doc.add_paragraph()
+    p._element.append(element._as_xml_element())
+    doc.save(filename)
 
 
 def hash_file(filename):

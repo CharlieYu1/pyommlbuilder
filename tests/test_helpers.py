@@ -1,6 +1,6 @@
 from textwrap import wrap
 from pyommlbuilder.main import Run, Text, Fraction, wrap_text, MathPara
-from pyommlbuilder.helpers import make_aligned_equation
+from pyommlbuilder.helpers import make_aligned_equation, normal_text
 
 
 def test_wrap_text():
@@ -9,6 +9,12 @@ def test_wrap_text():
     correct_output = "<m:r><m:t>2x+y</m:t></m:r>"
     assert wrap_text(expression1)._render_to_omml() == correct_output
     assert wrap_text(expression2)._render_to_omml() == correct_output
+
+
+def test_normal_test():
+    expression1 = normal_text("This is normal text")
+    correct_output = "<m:r><m:rPr><m:nor /></m:rPr><m:t>This is normal text</m:t></m:r>"
+    assert wrap_text(expression1)._render_to_omml() == correct_output
 
 
 def test_make_aligned_equation():

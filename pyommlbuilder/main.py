@@ -17,7 +17,6 @@ class Element(object):
     omml_tag = "m:e"
 
     def __init__(self, *elements, **kwargs):
-
         if len(elements) == 1:
             elements = elements[0]
         if isinstance(elements, list) or isinstance(elements, tuple):
