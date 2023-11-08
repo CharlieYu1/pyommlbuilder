@@ -1,6 +1,7 @@
 from textwrap import wrap
-from pyommlbuilder.main import Run, Text, Fraction, wrap_text, MathPara
+from pyommlbuilder.main import Run, Text, Fraction, wrap_text, MathPara, MathPara
 from pyommlbuilder.helpers import make_aligned_equation, normal_text
+from pyommlbuilder.functions import square
 
 
 def test_wrap_text():
@@ -47,6 +48,57 @@ def test_make_aligned_equation():
                     <m:r><m:t>x-2</m:t></m:r></m:den>
                 </m:f>
             </m:oMath>""".replace(
+            " ", ""
+        ).replace(
+            "\n", ""
+        )
+    )
+    
+def test_square_in_aligned_equation():
+    equation_block = MathPara(
+        make_aligned_equation(
+            square(Text("a")), [
+                square(Text("b")), "+", square(Text("c")), " ",
+                normal_text("(Pyth's thm)")]
+        ),
+    )
+    assert (
+        equation_block
+        ._render_to_omml()
+        .replace(" ", "")
+        == """
+            <m:oMathPara>
+                <m:oMath>
+                    <m:sSup>
+                        <m:e><m:t>a</m:t></m:e>
+                        <m:sup><m:r><m:t>2</m:t></m:r></m:sup>
+                    </m:sSup>
+                    <m:r>
+                        <m:rPr><m:aln /></m:rPr><m:t>=</m:t>
+                    </m:r>
+                    <m:sSup>
+                        <m:e><m:t>b</m:t></m:e>
+                        <m:sup><m:r><m:t>2</m:t></m:r></m:sup>
+                    </m:sSup>
+                    <m:r>
+                        <m:t>+</m:t>
+                    </m:r>
+                    <m:sSup>
+                        <m:e><m:t>c</m:t></m:e>
+                        <m:sup><m:r><m:t>2</m:t></m:r></m:sup>
+                    </m:sSup>
+                    <m:r>
+                        <m:t></m:t>
+                    </m:r>
+                    <m:r>
+                        <m:rPr>
+                            <m:nor />
+                        </m:rPr>
+                        <m:t>(Pyth's thm)</m:t>
+                    </m:r>
+                    <w:br />
+                </m:oMath>
+            </m:oMathPara>""".replace(
             " ", ""
         ).replace(
             "\n", ""

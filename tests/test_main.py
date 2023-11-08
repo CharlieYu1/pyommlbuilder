@@ -145,3 +145,11 @@ def test_function():
         expression._render_to_omml()
         == '<m:func><m:fName><m:r><m:rPr><m:sty m:val="p" /></m:rPr><m:t>sin</m:t></m:r></m:fName><m:e><m:r><m:t>30°</m:t></m:r></m:e></m:func>'
     )
+
+
+def test_text():
+    expression = Text('a')
+    assert (
+        expression._render_to_omml()
+        == '<m:t>a</m:t>'
+    )

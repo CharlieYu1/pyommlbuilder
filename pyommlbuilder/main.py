@@ -34,6 +34,7 @@ class Element(object):
         self._elements.append(element)
 
     def _render_to_omml(self):
+        
         cls = self.__class__
         xml_attributes = "".join(
             [
@@ -55,10 +56,7 @@ class Element(object):
 
 
 class ElementList(Element):
-    omml_tag = None  # a list of elements that does not belong to a parent element
-
-    def _as_xml_element(self):
-        raise Exception("cannot convert an ElementList to a XML element")
+    omml_tag = None  # a list of elements that does not belong to a parent element      
 
 
 class Run(Element):
@@ -68,8 +66,11 @@ class Run(Element):
 class Text(Element):
     omml_tag = "m:t"
 
-    def __init__(self, text: str, **kwargs):
-        self.text = str(text)
+    def __init__(self, text: Union[str, "Text"], **kwargs):
+        if isinstance(text, str):
+            self.text = text
+        else:
+            self.text = text.text
         self.attributes = kwargs
 
     def _render_to_omml(self):
@@ -139,7 +140,7 @@ class LineBreak(EmptyElement):
     omml_tag = "w:br"
 
 
-class Math(Element):
+class Math(ElementList):
     omml_tag = "m:oMath"
 
 
