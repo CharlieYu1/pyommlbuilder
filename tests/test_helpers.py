@@ -70,21 +70,21 @@ def test_square_in_aligned_equation():
             <m:oMathPara>
                 <m:oMath>
                     <m:sSup>
-                        <m:e><m:t>a</m:t></m:e>
+                        <m:e><m:r><m:t>a</m:t></m:r></m:e>
                         <m:sup><m:r><m:t>2</m:t></m:r></m:sup>
                     </m:sSup>
                     <m:r>
                         <m:rPr><m:aln /></m:rPr><m:t>=</m:t>
                     </m:r>
                     <m:sSup>
-                        <m:e><m:t>b</m:t></m:e>
+                        <m:e><m:r><m:t>b</m:t></m:r></m:e>
                         <m:sup><m:r><m:t>2</m:t></m:r></m:sup>
                     </m:sSup>
                     <m:r>
                         <m:t>+</m:t>
                     </m:r>
                     <m:sSup>
-                        <m:e><m:t>c</m:t></m:e>
+                        <m:e><m:r><m:t>c</m:t></m:r></m:e>
                         <m:sup><m:r><m:t>2</m:t></m:r></m:sup>
                     </m:sSup>
                     <m:r>
