@@ -15,8 +15,8 @@ def tan(arg: Union[Element, str]):
 
 
 def square(arg: Union[Element, str]):
-    return SuperscriptObject(Text(arg), "2")
+    return SuperscriptObject(arg, "2")
 
 
 def cube(arg: Union[Element, str]):
-    return SuperscriptObject(Text(arg), "3")
+    return SuperscriptObject(arg, "3")
