@@ -1,4 +1,4 @@
-from .main import Function, Run, RunPropertyPlainStyle, Text, Element
+from .main import Function, Run, RunPropertyPlainStyle, Text, Element, SuperscriptObject
 from typing import Union
 
 
@@ -12,3 +12,11 @@ def cos(arg: Union[Element, str]):
 
 def tan(arg: Union[Element, str]):
     return Function(Run(RunPropertyPlainStyle(), Text("tan")), arg)
+
+
+def square(arg: Union[Element, str]):
+    return SuperscriptObject(Text(arg), "2")
+
+
+def cube(arg: Union[Element, str]):
+    return SuperscriptObject(Text(arg), "3")
